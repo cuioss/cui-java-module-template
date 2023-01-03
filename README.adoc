@@ -36,7 +36,7 @@ Replace all  of `cui-java-module-template` with the new project 'key' / name, e.
 
 [CAUTION]
 ====
-The key must contain spaces. They are used for creating urls as well.
+The key must *not* contain spaces. They are used for creating urls as well.
 
 ====
 
