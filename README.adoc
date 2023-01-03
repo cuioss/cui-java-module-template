@@ -34,6 +34,13 @@ It is meant to be used as copy-paste-template.
 Create a new Repository by clicking "Use this template"
 Replace all  of `cui-java-module-template` with the new project 'key' / name, e.g. `my-java-module`. Relevant Files are:
 
+[CAUTION]
+====
+The key must contain spaces. They are used for creating urls as well.
+
+====
+
+
 * `README.adoc` -> the badges on top
 * `pom.xml`
 * `SECURITY.adoc`
