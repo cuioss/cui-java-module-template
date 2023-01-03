@@ -48,7 +48,7 @@ The key must *not* contain spaces. They are used for creating urls as well.
 * `src/site/site.xml`
 * `src/site/asciidoc/about.adoc`
 
-=== Credential
+=== Credentials
 
 Add the necessary credentials to the project: "Settings" -> "Secrets" -> "Actions", as there are: 
 
