@@ -12,7 +12,7 @@ https://cuioss.github.io/cui-java-module-template/index.html[Generated Documenta
 
 == What is it?
 
-This is a template repository for creating java-modules for cui-open-source-projects. This incorporates all necessary java-structures, including 'pom.xml', sensible project-documentation, 
+This is a template repository for creating java-modules for cui-open-source-projects. This incorporates all necessary java-structures, including `pom.xml`, sensible project-documentation, 
 an predefined github pipelines. 
 
 It is meant to be used as copy-paste-template.
@@ -27,3 +27,41 @@ It is meant to be used as copy-paste-template.
     </dependency>
 ----
 
+== Customization
+
+=== Names / Keys
+
+Create a new Repository by clicking "Use this template"
+Replace all  of `cui-java-module-template` with the new project 'key' / name, e.g. `my-java-module`. Relevant Files are:
+
+* `README.adoc` -> the badges on top
+* `pom.xml`
+* `SECURITY.adoc`
+* `.github/project.yml`
+* `src/site/site.xml`
+* `src/site/asciidoc/about.adoc`
+
+=== Credential
+
+Add the necessary credentials to the project: "Settings" -> "Secrets" -> "Actions", as there are: 
+
+* `GPG_PASSPHRASE`
+* `GPG_PRIVATE_KEY`
+* `OSS_SONATYPE_PASSWORD`
+* `OSS_SONATYPE_USERNAME`
+* `PAGES_DEPLOY_TOKEN`
+* `SONAR_TOKEN`
+
+They are picked up in the predefined pipeline-configurations:
+
+* `.github/workflows/maven.yml`
+* `.github/workflows/maven-release.yml`
+
+Documentation on how to create a signing key can be found https://github.com/cuioss/cui-parent-pom/blob/master/doc/signing_key.adoc[Documentation at cui-parent-pom] 
+
+A sonar token can be derived from https://sonarcloud.io/account/security
+
+=== Further Steps
+
+* Review / Enable the elements under 'Security' Tab
+* Add (link) the resulting maven-documentation: https://github.com/cuioss/cuioss.github.io/edit/main/README.md[github.io-documentation] 
