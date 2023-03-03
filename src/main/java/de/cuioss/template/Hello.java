@@ -1,4 +1,4 @@
-package io.cui.template;
+package de.cuioss.template;
 
 import lombok.ToString;
 
@@ -8,7 +8,7 @@ import lombok.ToString;
  */
 @ToString
 public class Hello {
-    
+
     /**
      * @param name to be greeted
      * @return the greeted String
