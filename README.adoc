@@ -12,7 +12,7 @@ image:https://sonarcloud.io/api/project_badges/measure?project=cuioss_cui-java-m
 image:https://sonarcloud.io/api/project_badges/measure?project=cuioss_cui-java-module-template&metric=coverage[Coverage,link=https://sonarcloud.io/summary/new_code?id=cuioss_cui-java-module-template]
 
 
-https://cuioss.github.io/cui-java-module-template/index.html[Generated Documentation on github-pages]
+https://cuioss.github.io/cui-java-module-template/about.html[Generated Documentation on github-pages]
 
 == What is it?
 
