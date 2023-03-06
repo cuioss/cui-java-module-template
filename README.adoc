@@ -27,7 +27,7 @@ It is meant to be used as copy-paste-template.
 ----
     <dependency>
         <groupId>de.cuioss</groupId>
-        <name>cui-java-module-template</name>
+        <artifactId>cui-java-module-template</artifactId>
     </dependency>
 ----
 
