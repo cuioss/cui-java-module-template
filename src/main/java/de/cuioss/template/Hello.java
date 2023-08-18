@@ -14,7 +14,7 @@ public class Hello {
      * @return the greeted String
      */
     public String hello(String name) {
-            return "Hello " + name;
+        return "Hello " + name;
     }
 
 }

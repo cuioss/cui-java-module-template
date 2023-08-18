@@ -77,6 +77,8 @@ A sonar token can be derived from https://sonarcloud.io/account/security
 === Further Steps
 
 * `pom.xml`: Adjust `name` and `description` elements
+* Adjust `module-info` accordingly
+* `pom.xml`: Adjust property `maven.jar.plugin.automatic.module.name` according to your `module-info`
 * `src/site/asciidoc/about.adoc`: Adjust content
 * Review / Enable the elements under 'Security' Tab
 * Review / Add Collaborators
