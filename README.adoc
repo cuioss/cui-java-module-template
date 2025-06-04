@@ -42,7 +42,10 @@ This template provides an automated customization process to easily update all r
 
 The script will update all required files with your project-specific information.
 
-To test the customization process, you can run `./test_customization.sh` which will apply test values and then reset them using git.
+After running the script, you can review the changes in your git repository. The script will not commit or push any changes automatically, allowing you to verify them first.
+
+After reviewing the changes,
+you delete the files `customization.properties` and `./customize.sh` you can commit them to your repository.
 
 === Names / Keys
 
@@ -84,17 +87,6 @@ Ensure that the actions are authorized correctly: Settings > Actions > General >
 Documentation on how to create a signing key can be found https://github.com/cuioss/cui-parent-pom/blob/master/doc/signing_key.adoc[Documentation at cui-parent-pom] 
 
 A sonar token can be derived from https://sonarcloud.io/account/security
-
-=== Resetting Customization
-
-If you need to reset your customization changes, you can use git:
-
-[source,bash]
-----
-git checkout -- pom.xml README.adoc SECURITY.md .github/project.yml src/site/site.xml src/main/java/module-info.java
-----
-
-Then you can update `customization.properties` and run `./customize.sh` again.
 
 === Further Steps
 
