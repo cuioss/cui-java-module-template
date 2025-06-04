@@ -6,5 +6,6 @@
 *.iml
 *.classpath
 *.project
+**/.vscode
 .DS_Store
 .asciidoctorconfig.adoc

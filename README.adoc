@@ -33,10 +33,21 @@ It is meant to be used as copy-paste-template.
 
 == Customization
 
+=== Automated Customization
+
+This template provides an automated customization process to easily update all relevant project files:
+
+1. Configure your project properties in `customization.properties`
+2. Run the customization script: `./customize.sh`
+
+The script will update all required files with your project-specific information.
+
+To test the customization process, you can run `./test_customization.sh` which will apply test values and then reset them using git.
+
 === Names / Keys
 
 Create a new Repository by clicking "Use this template"
-Replace all  of `cui-java-module-template` with the new project 'key' / name, e.g. `my-java-module`. Relevant Files are:
+If not using the automated customization process, manually replace all occurrences of `cui-java-module-template` with the new project 'key' / name, e.g. `my-java-module`. Relevant Files are:
 
 [CAUTION]
 ====
@@ -74,12 +85,52 @@ Documentation on how to create a signing key can be found https://github.com/cui
 
 A sonar token can be derived from https://sonarcloud.io/account/security
 
+=== Resetting Customization
+
+If you need to reset your customization changes, you can use git:
+
+[source,bash]
+----
+git checkout -- pom.xml README.adoc SECURITY.md .github/project.yml src/site/site.xml src/main/java/module-info.java
+----
+
+Then you can update `customization.properties` and run `./customize.sh` again.
+
 === Further Steps
 
-* `pom.xml`: Adjust `name` and `description` elements
-* Adjust `module-info` accordingly
-* `pom.xml`: Adjust property `maven.jar.plugin.automatic.module.name` according to your `module-info`
+* Verify that the customization was applied correctly to all files
+* If you're using manual customization:
+** `pom.xml`: Adjust `name` and `description` elements
+** Adjust `module-info` accordingly
+** `pom.xml`: Adjust property `maven.jar.plugin.automatic.module.name` according to your `module-info`
 * `src/site/asciidoc/about.adoc`: Adjust content
 * Review / Enable the elements under 'Security' Tab
 * Review / Add Collaborators
-* Add (link) the resulting maven-documentation: https://github.com/cuioss/cuioss.github.io/edit/main/README.md[github.io-documentation] 
+* Add (link) the resulting maven-documentation: https://github.com/cuioss/cuioss.github.io/edit/main/README.md[github.io-documentation]
+
+=== Customization Properties
+
+The `customization.properties` file controls how the project is customized:
+
+[source,properties]
+----
+# Used in pom.xml (artifactId), README.adoc (badges), .github/project.yml (name, pages-reference) src/site/site.xml (links), SECURITY.md (links)
+project.key=cui-java-module-template
+
+# Used in pom.xml (<n> tag)
+project.name=cui java module template
+
+# Used in pom.xml (<description> tag)
+project.description=Template module for cuioss open source projects.
+
+# Used in pom.xml (property maven.jar.plugin.automatic.module.name)
+project.moduleName=de.cuioss.template
+
+# Used in pom.xml (groupId, README.adoc (badges))
+project.groupId=de.cuioss
+----
+
+The script automatically derives additional properties:
+* `project.scm.url` - SCM URL based on the project key
+* `project.pages.url` - GitHub Pages URL based on the project key
+* `project.sonar.id` - Sonar ID based on the project key 
