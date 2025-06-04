@@ -78,6 +78,10 @@ replace_in_file "pom.xml" "scm:git:https://github.com/cuioss/cui-java-module-tem
 replace_in_file "README.adoc" "= cui-java-module-template" "= ${PROJECT_KEY}"
 replace_in_file "README.adoc" "cuioss/cui-java-module-template" "cuioss/${PROJECT_KEY}"
 replace_in_file "README.adoc" "de.cuioss/cui-java-module-template" "${PROJECT_GROUP_ID}/${PROJECT_KEY}"
+# Fix for Maven Central badge - update the groupId in the badge URL
+replace_in_file "README.adoc" "maven-central/v/de.cuioss/" "maven-central/v/${PROJECT_GROUP_ID}/"
+# Fix for Maven Central artifact link
+replace_in_file "README.adoc" "search.maven.org/artifact/de.cuioss/" "search.maven.org/artifact/${PROJECT_GROUP_ID}/"
 replace_in_file "README.adoc" "cuioss_cui-java-module-template" "${PROJECT_SONAR_ID}"
 
 # Update SECURITY.md
