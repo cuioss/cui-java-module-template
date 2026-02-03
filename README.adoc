@@ -68,25 +68,7 @@ The key must *not* contain spaces. They are used for creating urls as well.
 
 === Credentials
 
-Add the necessary credentials to the project: "Settings" -> "Secrets" -> "Actions", as there are: 
-
-* `GPG_PASSPHRASE` -> Code Signing
-* `GPG_PRIVATE_KEY` -> Code Signing
-* `OSS_SONATYPE_PASSWORD` -> Deploy to maven-central 
-* `OSS_SONATYPE_USERNAME` -> Deploy to maven-central
-* `PAGES_DEPLOY_TOKEN` -> Deploying the result of maven site to https://cuioss.github.io
-* `SONAR_TOKEN` -> Sonar-Cloud
-
-They are picked up in the predefined pipeline-configurations:
-
-* `.github/workflows/maven.yml`
-* `.github/workflows/maven-release.yml`
-
-Ensure that the actions are authorized correctly: Settings > Actions > General > Workflow permissions >  "Read and write permissions" must be selected *not* "Read repository contents permission"
-
-Documentation on how to create a signing key can be found https://github.com/cuioss/cui-parent-pom/blob/master/doc/signing_key.adoc[Documentation at cui-parent-pom] 
-
-A sonar token can be derived from https://sonarcloud.io/account/security
+All secrets (GPG, Sonatype, Sonar, Pages, Release App) are managed at the https://github.com/cuioss/cuioss-organization[cuioss organization level] and inherited automatically via `secrets: inherit` in the reusable workflows. No repo-level secrets need to be configured.
 
 === Further Steps
 

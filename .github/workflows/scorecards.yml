@@ -1,4 +1,4 @@
-# Example: Copy this to your repo as .github/workflows/scorecards.yml
+# Calls reusable scorecards workflow from cuioss-organization
 name: Scorecard supply-chain security
 
 on:
@@ -8,7 +8,18 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   analysis:
     uses: cuioss/cuioss-organization/.github/workflows/reusable-scorecards.yml@9ce5ba83776bab80eeffb695f7374e334cf6bd9f # v0.2.0
+    permissions:
+      security-events: write
+      id-token: write
+      contents: read
+      actions: read
+      issues: read
+      pull-requests: read
+      checks: read
     secrets: inherit
