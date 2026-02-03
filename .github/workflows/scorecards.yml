@@ -1,0 +1,14 @@
+# Example: Copy this to your repo as .github/workflows/scorecards.yml
+name: Scorecard supply-chain security
+
+on:
+  branch_protection_rule:
+  schedule:
+    - cron: '20 7 * * 2'
+  push:
+    branches: [main]
+
+jobs:
+  analysis:
+    uses: cuioss/cuioss-organization/.github/workflows/reusable-scorecards.yml@9ce5ba83776bab80eeffb695f7374e334cf6bd9f # v0.2.0
+    secrets: inherit
