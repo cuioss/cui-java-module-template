@@ -23,3 +23,6 @@ sonar:
 pages:
   reference: cui-java-module-template
   deploy-at-release: true
+github-automation:
+  auto-merge-build-versions: true
+  auto-merge-build-timeout: 240
