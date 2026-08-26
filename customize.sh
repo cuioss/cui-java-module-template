@@ -22,6 +22,10 @@ PROJECT_NAME=$(get_prop "project.name")
 PROJECT_DESCRIPTION=$(get_prop "project.description")
 PROJECT_MODULE_NAME=$(get_prop "project.moduleName")
 PROJECT_GROUP_ID=$(get_prop "project.groupId")
+PROJECT_INCEPTION_YEAR=$(get_prop "project.inceptionYear")
+# A stale inception year restamps every source header on every build, so an
+# unset value defaults to now rather than inheriting the template's 2023.
+: "${PROJECT_INCEPTION_YEAR:=$(date +%Y)}"
 
 # Derive additional properties
 PROJECT_SCM_URL="https://github.com/cuioss/${PROJECT_KEY}/"
@@ -34,6 +38,7 @@ echo " - Project Name: $PROJECT_NAME"
 echo " - Project Description: $PROJECT_DESCRIPTION"
 echo " - Module Name: $PROJECT_MODULE_NAME"
 echo " - Group ID: $PROJECT_GROUP_ID"
+echo " - Inception Year: $PROJECT_INCEPTION_YEAR"
 echo " - SCM URL: $PROJECT_SCM_URL"
 echo " - Pages URL: $PROJECT_PAGES_URL"
 echo " - Sonar ID: $PROJECT_SONAR_ID"
@@ -68,6 +73,7 @@ replace_in_file() {
 replace_in_file "pom.xml" "<artifactId>cui-java-module-template</artifactId>" "<artifactId>${PROJECT_KEY}</artifactId>"
 replace_in_file "pom.xml" "<n>cui java module template</n>" "<n>${PROJECT_NAME}</n>"
 replace_in_file "pom.xml" "<description>Template module for cuioss open source projects." "<description>${PROJECT_DESCRIPTION}"
+replace_in_file "pom.xml" "<inceptionYear>2023</inceptionYear>" "<inceptionYear>${PROJECT_INCEPTION_YEAR}</inceptionYear>"
 replace_in_file "pom.xml" "<maven.jar.plugin.automatic.module.name>de.cuioss.template</maven.jar.plugin.automatic.module.name>" "<maven.jar.plugin.automatic.module.name>${PROJECT_MODULE_NAME}</maven.jar.plugin.automatic.module.name>"
 replace_in_file "pom.xml" "<url>https://github.com/cuioss/cui-java-module-template/</url>" "<url>${PROJECT_SCM_URL}</url>"
 replace_in_file "pom.xml" "<url>https://github.com/cuioss/cui-java-module-template/issues</url>" "<url>${PROJECT_SCM_URL}issues</url>"
