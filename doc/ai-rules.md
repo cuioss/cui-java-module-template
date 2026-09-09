@@ -322,6 +322,7 @@ Common Maven commands for CUI projects:
 
 ### Integration with Development Workflows
 - **CI/CD Awareness**: Understand and respect automated build and deployment processes
-- **Quality Gate Integration**: Ensure all outputs pass automated quality checks
+- **Quality Gate Integration**: Run the automated quality tooling and commit the fixes it
+  applies; the pre-commit profile rewrites files rather than only reporting
 - **Collaborative Development**: Optimize for effective human-AI pair programming
 - **Knowledge Contribution**: Help maintain and improve team knowledge base and documentation
