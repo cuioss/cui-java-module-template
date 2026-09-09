@@ -69,7 +69,10 @@ Before any code implementation:
 ### Pre-Commit Checklist
 Execute in sequence before ANY commit:
 
-1. **Quality Verification**: `./mvnw -Ppre-commit clean verify`
+1. **Quality Auto-Fix**: `./mvnw -Ppre-commit clean verify`
+    - This REWRITES your files in place (license headers, formatting). Review what it
+      changed and commit it - a run that repaired the tree and a run that changed
+      nothing both exit 0, so check `git status` afterwards.
     - Fix ALL errors and warnings (mandatory)
     - Some recipes may add markers: Either fix them, or suppress them with proper justification. Never commit the markers.
     - Address code quality, formatting, and linting issues
