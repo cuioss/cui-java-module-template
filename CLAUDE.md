@@ -17,7 +17,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Run a single test method
 ./mvnw test -Dtest=ClassName#methodName
 
-# Pre-commit checks
+# Pre-commit auto-fix (license headers + formatting) - review and commit what it changed
 ./mvnw -Ppre-commit clean verify -DskipTests
 ```
 
