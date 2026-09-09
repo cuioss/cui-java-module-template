@@ -52,7 +52,8 @@ These rules govern ALL development activities:
 ### Validation Requirements
 Before any code implementation:
 1. **Standards Compliance Check**: Verify output matches CUI standards
-2. **Build Verification**: Ensure generated code compiles and passes pre-commit checks
+2. **Build Verification**: Ensure generated code compiles, then run the pre-commit profile and
+   commit the fixes it applies (it rewrites files; it is not a pass/fail check)
 3. **Security Review**: Check for security anti-patterns and vulnerabilities
 4. **Documentation Sync**: Verify documentation reflects any code changes
 5. **Test Coverage**: Ensure adequate test coverage for new functionality
