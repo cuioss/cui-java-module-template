@@ -17,7 +17,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Run a single test method
 ./mvnw test -Dtest=ClassName#methodName
 
-# Pre-commit auto-fix (license headers + formatting) - review and commit what it changed
+# Pre-commit auto-fix: license headers + every configured OpenRewrite recipe
+# (modernization, not just formatting) - review every resulting diff and commit it
 ./mvnw -Ppre-commit clean verify -DskipTests
 ```
 
