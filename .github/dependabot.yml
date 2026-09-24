@@ -14,8 +14,13 @@ updates:
       semver-major-days: 7
       semver-minor-days: 3
       semver-patch-days: 1
-  # No github-actions lane on purpose: the only `uses:` are the SHA-pinned cuioss-organization
-  # workflows, which the org release bumps via its consumers list (keep this repository in
-  # cuioss-organization/.github/project.yml `consumers:`). Add a github-actions lane (cooldown:
-  # default-days only) as soon as a workflow uses any other action; a docker lane per digest-pinned
-  # Dockerfile directory likewise.
+
+  # Bumps third-party actions pinned by SHA. The cuioss-organization workflow pins are NOT updated
+  # here but by the cuioss-release-bot (org release, consumers list), so this lane is idle until a
+  # workflow uses another action. Add a docker lane per digest-pinned Dockerfile directory likewise.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 3
