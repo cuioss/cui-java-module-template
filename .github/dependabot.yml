@@ -14,3 +14,13 @@ updates:
       semver-major-days: 7
       semver-minor-days: 3
       semver-patch-days: 1
+
+  # Bumps third-party actions pinned by SHA. The cuioss-organization workflow pins are NOT updated
+  # here but by the cuioss-release-bot (org release, consumers list), so this lane is idle until a
+  # workflow uses another action. Add a docker lane per digest-pinned Dockerfile directory likewise.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 3

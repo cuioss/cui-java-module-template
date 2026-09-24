@@ -2,9 +2,13 @@
 name: cui-java-module-template
 description: Template for cuioss Java modules
 
+# MERGING A CHANGE OF current-version IS A RELEASE to Maven Central (central version-changed guard
+# in reusable-maven-release.yml). Never change it while customizing or in an ordinary PR:
+# 0.1.0 is the first release of a derived repository, cut deliberately via workflow_dispatch.
+# Later versions go through the release runbook (.claude/skills/release/SKILL.md).
 release:
-  current-version: 1.0.0
-  next-version: 1.1.0-SNAPSHOT
+  current-version: 0.1.0
+  next-version: 0.1.1-SNAPSHOT
   create-github-release: true
 
 maven-build:
