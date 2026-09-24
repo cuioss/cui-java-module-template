@@ -7,6 +7,10 @@
 # plan-marshall-mcp 0.1.0 was published by accident exactly this way: its bootstrap PR moved the
 # template's current-version while customizing. Change current-version only through the release
 # runbook (.claude/skills/release/SKILL.md).
+#
+# workflow_dispatch is NOT guarded: the central guard proceeds unconditionally on a dispatch, including
+# an unchanged or already-tagged version. It is the deliberate fallback path (and the path of a derived
+# repository's first release); the runbook's pre-cut checks are the only gate there.
 name: Release
 
 on:
