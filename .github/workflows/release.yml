@@ -1,20 +1,37 @@
-# Example: Copy this to your repo as .github/workflows/release.yml
 # Configuration is read from .github/project.yml - no inputs needed!
+#
+# MERGING A CHANGE OF release.current-version IN .github/project.yml IS A RELEASE.
+# The central guard inside reusable-maven-release.yml publishes to Maven Central whenever
+# current-version differs from the merge commit's first parent and is untagged. Every other
+# project.yml edit reaches this workflow too (paths: is only a prefilter) and is refused there.
+# plan-marshall-mcp 0.1.0 was published by accident exactly this way: its bootstrap PR moved the
+# template's current-version while customizing. Change current-version only through the release
+# runbook (.claude/skills/release/SKILL.md).
 name: Release
 
 on:
+  workflow_dispatch:
+  # PREFILTER ONLY, NEVER THE DECISION. `branches:` is the PR's base: only merges into main may ask.
   pull_request:
     types: [closed]
-    paths:
-      - '.github/project.yml'
-  workflow_dispatch:
+    branches: [main]
+    paths: ['.github/project.yml']
 
 permissions:
   contents: read
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    # ANDed with the central guard, never an alternative to it:
+    # 1. The template repository itself never releases. Repositories created from it carry this
+    #    line unchanged and are unaffected. customize.sh deliberately does NOT rewrite this file:
+    #    renaming the literal below to the new repository would disable its releases.
+    # 2. A dispatch (which takes no branch filter) runs from main only.
+    # 3. A PR closed without merging never releases.
+    if: >-
+      github.repository != 'cuioss/cui-java-module-template' &&
+      (github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main') &&
+      (github.event_name != 'pull_request' || github.event.pull_request.merged == true)
     permissions:
       contents: write
     uses: cuioss/cuioss-organization/.github/workflows/reusable-maven-release.yml@2fa5476de3435e7fc3705646c3f1f3c99be95e71 # v0.30.0
@@ -25,4 +42,3 @@ jobs:
       OSS_SONATYPE_PASSWORD: ${{ secrets.OSS_SONATYPE_PASSWORD }}
       GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      PAGES_DEPLOY_TOKEN: ${{ secrets.PAGES_DEPLOY_TOKEN }}
