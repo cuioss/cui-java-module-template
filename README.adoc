@@ -61,14 +61,35 @@ The key must *not* contain spaces. They are used for creating urls as well.
 
 * `README.adoc` -> the badges on top
 * `pom.xml`
-* `SECURITY.adoc`
-* `.github/project.yml`
+* `.github/project.yml` -> `name`, `description`, `sonar.project-key`, `pages.reference` only
+* `CLAUDE.md`, `.claude/skills/release/SKILL.md` -> the repository slug
 * `src/site/site.xml`
 * `src/site/asciidoc/about.adoc`
 
+[WARNING]
+====
+Do *not* touch `release.current-version` in `.github/project.yml`, and do *not* replace
+`cuioss/cui-java-module-template` in `.github/workflows/release.yml` (it only excludes this template
+from releasing). See <<releasing>>.
+====
+
 === Credentials
 
-All secrets (GPG, Sonatype, Sonar, Pages, Release App) are managed at the https://github.com/cuioss/cuioss-organization[cuioss organization level] and inherited automatically via `secrets: inherit` in the reusable workflows. No repo-level secrets need to be configured.
+All secrets (GPG, Sonatype, Sonar, Release App) are managed at the https://github.com/cuioss/cuioss-organization[cuioss organization level]. The caller workflows pass them explicitly to the reusable workflows; pass only the secrets a reusable workflow declares, an undeclared one makes every run end in `startup_failure`. No repo-level secrets need to be configured.
+
+=== After creating the repository
+
+* *cuioss-organization*: add the repository to `consumers:` in
+  https://github.com/cuioss/cuioss-organization/blob/main/.github/project.yml[`.github/project.yml`],
+  so every org workflow release opens the pin-bump PR here. Apply repository settings and branch
+  protection (merge queue) with the org's `repo-settings` and `branch-protection` scripts.
+* *SonarCloud*: create the project `cuioss_<key>`. New projects start with a main branch called
+  `master`; rename it to `main` (Administration -> Branches and Pull Requests) *before* the first
+  analysis. Otherwise `main` is analysed as a short-lived branch and the overview stays empty. If it
+  already happened: delete the short-lived `main`, then rename `master`. Set New Code to "Previous
+  version". The first analysis of the renamed branch reports quality gate `NONE` (no baseline yet),
+  which fails `sonar.qualitygate.wait`; the next analysis is green.
+* *Release*: leave `release.current-version` alone, see <<releasing>>.
 
 === Further Steps
 
@@ -108,3 +129,20 @@ The script automatically derives additional properties:
 * `project.scm.url` - SCM URL based on the project key
 * `project.pages.url` - GitHub Pages URL based on the project key
 * `project.sonar.id` - Sonar ID based on the project key 
+
+[#releasing]
+== Releasing
+
+Merging a change of `release.current-version` in `.github/project.yml` *is* a release: the central
+guard in `reusable-maven-release.yml` publishes to Maven Central whenever that value differs from the
+merge commit's first parent and no tag for it exists. Maven Central releases cannot be withdrawn.
+Every other `project.yml` edit reaches the release workflow too and is refused by the guard.
+
+* This template declares `current-version: 0.1.0` together with `0.1.0-SNAPSHOT` in `pom.xml`, so a
+  new repository never has to touch the value. Its first release is a deliberate
+  `workflow_dispatch` from `main`.
+* Every later release goes through the runbook `.claude/skills/release/SKILL.md`: a dedicated
+  `chore/release_<version>` PR that changes nothing but the version, merged only after the pre-cut
+  checks.
+* The release workflow excludes this template repository itself, so it never publishes
+  `cui-java-module-template`.

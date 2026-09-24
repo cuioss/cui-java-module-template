@@ -71,7 +71,7 @@ replace_in_file() {
 
 # Update pom.xml
 replace_in_file "pom.xml" "<artifactId>cui-java-module-template</artifactId>" "<artifactId>${PROJECT_KEY}</artifactId>"
-replace_in_file "pom.xml" "<n>cui java module template</n>" "<n>${PROJECT_NAME}</n>"
+replace_in_file "pom.xml" "<name>cui java module template</name>" "<name>${PROJECT_NAME}</name>"
 replace_in_file "pom.xml" "<description>Template module for cuioss open source projects." "<description>${PROJECT_DESCRIPTION}"
 replace_in_file "pom.xml" "<inceptionYear>2023</inceptionYear>" "<inceptionYear>${PROJECT_INCEPTION_YEAR}</inceptionYear>"
 replace_in_file "pom.xml" "<maven.jar.plugin.automatic.module.name>de.cuioss.template</maven.jar.plugin.automatic.module.name>" "<maven.jar.plugin.automatic.module.name>${PROJECT_MODULE_NAME}</maven.jar.plugin.automatic.module.name>"
@@ -90,13 +90,20 @@ replace_in_file "README.adoc" "maven-central/v/de.cuioss/" "maven-central/v/${PR
 replace_in_file "README.adoc" "central.sonatype.com/artifact/de.cuioss/" "central.sonatype.com/artifact/${PROJECT_GROUP_ID}/"
 replace_in_file "README.adoc" "cuioss_cui-java-module-template" "${PROJECT_SONAR_ID}"
 
-# Update SECURITY.md
-replace_in_file "SECURITY.md" "cuioss/cui-java-module-template" "cuioss/${PROJECT_KEY}"
-
 # Update .github/project.yml
-replace_in_file ".github/project.yml" "name: cui-java-module-template" "name: ${PROJECT_KEY}"
-replace_in_file ".github/project.yml" "pages-reference: cui-java-module-template" "pages-reference: ${PROJECT_KEY}"
-replace_in_file ".github/project.yml" "sonar-project-key: cuioss_cui-java-module-template" "sonar-project-key: ${PROJECT_SONAR_ID}"
+# Only name, description, sonar and pages keys. NEVER release.current-version: merging a change of
+# it is a Maven Central release (see the comment in .github/project.yml).
+replace_in_file ".github/project.yml" "^name: cui-java-module-template$" "name: ${PROJECT_KEY}"
+replace_in_file ".github/project.yml" "^description: Template for cuioss Java modules$" "description: ${PROJECT_DESCRIPTION}"
+replace_in_file ".github/project.yml" "project-key: cuioss_cui-java-module-template" "project-key: ${PROJECT_SONAR_ID}"
+replace_in_file ".github/project.yml" "reference: cui-java-module-template" "reference: ${PROJECT_KEY}"
+
+# Update CLAUDE.md and the release runbook (repository slug only).
+# .github/workflows/release.yml is deliberately NOT touched: its template-repository exclusion must
+# keep naming cuioss/cui-java-module-template, otherwise the new repository could never release.
+replace_in_file "CLAUDE.md" "cuioss/cui-java-module-template" "cuioss/${PROJECT_KEY}"
+# Only the `--repo` arguments: the template-exclusion literal quoted in the runbook must stay.
+replace_in_file ".claude/skills/release/SKILL.md" "repo cuioss/cui-java-module-template" "repo cuioss/${PROJECT_KEY}"
 
 # Update site.xml
 replace_in_file "src/site/site.xml" "https://github.com/cuioss/cui-java-module-template" "${PROJECT_SCM_URL}"
@@ -104,12 +111,17 @@ replace_in_file "src/site/site.xml" "https://github.com/cuioss/cui-java-module-t
 # Update module-info.java if module name changed
 if [ "${PROJECT_MODULE_NAME}" != "de.cuioss.template" ]; then
     replace_in_file "src/main/java/module-info.java" "module de.cuioss.template" "module ${PROJECT_MODULE_NAME}"
-    # Also update the exports statement if needed
-    replace_in_file "src/main/java/module-info.java" "exports de.cuioss.template;" "exports ${PROJECT_MODULE_NAME};"
+    # The exported package stays de.cuioss.template until you move the sources; rename both together.
 fi
 
 echo "Customization completed successfully!"
 echo ""
+echo "Next steps (see README.adoc, 'After creating the repository'):"
+echo " - Do NOT change release.current-version in .github/project.yml: merging that change IS a release."
+echo " - SonarCloud: create ${PROJECT_SONAR_ID} and rename its main branch 'master' to 'main' before the first analysis."
+echo " - Add ${PROJECT_KEY} to 'consumers:' in cuioss-organization/.github/project.yml."
+echo " - Apply branch protection / merge queue with cuioss-organization/branch-protection."
+echo ""
 echo "To reset to original values, you can use Git to revert changes:"
-echo "  git checkout -- pom.xml README.adoc SECURITY.md .github/project.yml src/site/site.xml src/main/java/module-info.java"
+echo "  git checkout -- pom.xml README.adoc CLAUDE.md .claude/skills/release/SKILL.md .github/project.yml src/site/site.xml src/main/java/module-info.java"
 echo "And then run this script again with the desired values in customization.properties."
