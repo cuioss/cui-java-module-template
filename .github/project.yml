@@ -29,3 +29,8 @@ pages:
   deploy-at-release: true
 github-automation:
   auto-merge-build-versions: true
+
+cuioss-review-bot:
+  enabled: true
+  packs: [java]
+  additional_rules: []
