@@ -83,12 +83,23 @@ All secrets (GPG, Sonatype, Sonar, Release App) are managed at the https://githu
   https://github.com/cuioss/cuioss-organization/blob/main/.github/project.yml[`.github/project.yml`],
   so every org workflow release opens the pin-bump PR here. Apply repository settings and branch
   protection (merge queue) with the org's `repo-settings` and `branch-protection` scripts.
-* *SonarCloud*: create the project `cuioss_<key>`. New projects start with a main branch called
-  `master`; rename it to `main` (Administration -> Branches and Pull Requests) *before* the first
-  analysis. Otherwise `main` is analysed as a short-lived branch and the overview stays empty. If it
-  already happened: delete the short-lived `main`, then rename `master`. Set New Code to "Previous
-  version". The first analysis of the renamed branch reports quality gate `NONE` (no baseline yet),
-  which fails `sonar.qualitygate.wait`; the next analysis is green.
+* *SonarCloud*, *before the first push or merge to `main`* (CI creates a missing project itself, with the
+  main branch `master`, as soon as the first analysis runs):
+** Create the project `cuioss_<key>` in the organization `cuioss-github`, where all cuioss projects live.
+   A project in another organization (for example `cuioss`) is not the one CI analyses.
+** New projects start with a main branch called `master`; rename it to `main` (Administration ->
+   Branches and Pull Requests) *before* the first analysis. Otherwise `main` is analysed as a short-lived
+   branch and the overview stays empty. If it already happened: delete the short-lived `main`, then
+   rename `master`.
+** Set New Code to "Previous version".
+** The first analysis of the renamed branch reports quality gate `NONE` (no baseline yet), which fails
+   `sonar.qualitygate.wait`; re-run the failed job, the next analysis is green.
+** Verify (public projects need no token): the branch listed with `"isMain":true` must be `main`:
++
+[source,bash]
+----
+curl -s "https://sonarcloud.io/api/project_branches/list?project=cuioss_<key>"
+----
 * *Release*: leave `release.current-version` alone, see <<releasing>>.
 
 === Further Steps
